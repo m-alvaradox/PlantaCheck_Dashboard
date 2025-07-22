@@ -3,6 +3,8 @@ import { Grid } from '@mui/material';
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+import HeaderUI from './components/HeaderUI';
+import AlertUI from './components/AlertUI';
 
 function App() {
    return (
@@ -10,10 +12,14 @@ function App() {
 
          {/* Encabezado */}
          <Grid>Elemento: Encabezado</Grid>
-         <Grid size={{ xs: 12, md: 12 }}>Elemento: Encabezado</Grid>
+         <Grid size={{ xs: 12, md: 12 }}>Elemento: Encabezado
+            <HeaderUI />
+         </Grid>
 
          {/* Alertas */}
-         <Grid>Elemento: Alertas</Grid>
+         <Grid container justifyContent="right" alignItems="center">Elemento: Alertas
+            <AlertUI description="No se preveen lluvias"/>
+         </Grid>
 
          {/* Selector */}
          <Grid>Elemento: Selector</Grid>
