@@ -4,22 +4,34 @@ import MenuItem from '@mui/material/MenuItem';
 import Select, { type SelectChangeEvent } from '@mui/material/Select';
 import { useState } from 'react';
 
-export default function SelectorUI() {
+type CityName = 'guayaquil' | 'quito' | 'manta' | 'cuenca';
 
-    const [cityInput, setCityInput] = useState('');
+interface SelectorProps {
+    onCityChange: (city: CityName) => void;
+}
+
+export default function SelectorUI({ onCityChange }: SelectorProps) {
+
+    const [cityInput, setCityInput] = useState<CityName>('guayaquil');
     
     const handleChange = (event: SelectChangeEvent<string>) => {
-        setCityInput(event.target.value)
+        const newCity = event.target.value as CityName;
+        setCityInput(newCity);
+        onCityChange(newCity);
     };
+
+    const capitalize = (text: string) =>
+        text.charAt(0).toUpperCase() + text.slice(1);
 
 return (
    <FormControl fullWidth>
       <InputLabel id="city-select-label">Ciudad</InputLabel>
-      <Select onChange={handleChange}
+      <Select
          value={cityInput}
          labelId="city-select-label"
          id="city-simple-select"
-         label="Ciudad">
+         label="Ciudad"
+         onChange={handleChange}>
          <MenuItem disabled><em>Seleccione una ciudad</em></MenuItem>
          <MenuItem value={"guayaquil"}>Guayaquil</MenuItem>
          <MenuItem value={"quito"}>Quito</MenuItem>
@@ -28,9 +40,9 @@ return (
       </Select>
 
         {cityInput && (
-    <p>
-        Información del clima en <span style={{textTransform: 'capitalize', fontWeight: 'bold'}}>{cityInput}</span>
-    </p>
+        <p>
+          Información del clima en <b>{capitalize(cityInput)}</b>
+        </p>
 )}
 
    </FormControl>

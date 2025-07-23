@@ -1,7 +1,5 @@
 import { useState } from 'react'
 import { Grid, Box, Typography } from '@mui/material';
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 import HeaderUI from './components/HeaderUI';
 import AlertUI from './components/AlertUI';
@@ -11,8 +9,20 @@ import DataFetcher from './functions/DataFetcher';
 import ChartUI from './components/ChartUI';
 import TableUI from './components/TableUI';
 
+type CityName = 'guayaquil' | 'quito' | 'manta' | 'cuenca';
+
+const cityCoordinates: Record<CityName, { lat: number; lon: number }> = {
+  guayaquil: { lat: -2.1962, lon: -79.8862 },
+  quito: { lat: -0.1807, lon: -78.4678 },
+  manta: { lat: -0.9677, lon: -80.7089 },
+  cuenca: { lat: -2.9006, lon: -79.0045 },
+};
+
 function App() {
-   const dataFetcherOutput = DataFetcher();
+   const [selectedCity, setSelectedCity] = useState<CityName>('guayaquil');
+   const coords = cityCoordinates[selectedCity];
+   
+   const dataFetcherOutput = DataFetcher(coords.lat, coords.lon);
    return (
       <Grid container spacing={5} justifyContent="center" alignItems="center">
 
@@ -20,7 +30,7 @@ function App() {
          <Grid>
             <HeaderUI/>
          </Grid>
-         <Grid size={{ xs: 12, md: 12 }}></Grid>
+         
 
          {/* Alertas */}
          <Grid container justifyContent="right" alignItems="center">
@@ -29,7 +39,7 @@ function App() {
             
          {/* Selector */}
          <Grid>
-            <SelectorUI />
+            <SelectorUI onCityChange={setSelectedCity} />
          </Grid>
          <Grid size={{ xs: 12, md: 3  }}></Grid>
 
@@ -48,7 +58,7 @@ function App() {
                      <Grid size={{ xs: 12, md: 3 }} >
                          <IndicatorUI
                              title='Temperatura (2m)'
-                             description={dataFetcherOutput.data.current.temperature_2m + " " + dataFetcherOutput.data.current_units.temperature_2m} />
+                             description={`${dataFetcherOutput.data.current.temperature_2m} ${dataFetcherOutput.data.current_units.temperature_2m}`} />
                      </Grid>
     
 
@@ -56,19 +66,19 @@ function App() {
                      <Grid size={{ xs: 12, md: 3 }}>
                          <IndicatorUI
                              title='Temperatura aparente'
-                             description={dataFetcherOutput.data.current.apparent_temperature + " " + dataFetcherOutput.data.current_units.apparent_temperature} />
+                             description={`${dataFetcherOutput.data.current.apparent_temperature} ${dataFetcherOutput.data.current_units.apparent_temperature}`} />
                      </Grid>
 
                      <Grid size={{ xs: 12, md: 3 }}>
                          <IndicatorUI
                              title='Velocidad del viento'
-                             description={dataFetcherOutput.data.current.wind_speed_10m + " " + dataFetcherOutput.data.current_units.wind_speed_10m} />
+                             description={`${dataFetcherOutput.data.current.wind_speed_10m} ${dataFetcherOutput.data.current_units.wind_speed_10m}`} />
                      </Grid>
 
                      <Grid size={{ xs: 12, md: 3 }}>
                          <IndicatorUI
                              title='Humedad relativa'
-                             description={dataFetcherOutput.data.current.relative_humidity_2m + " " + dataFetcherOutput.data.current_units.relative_humidity_2m} />
+                             description={`${dataFetcherOutput.data.current.relative_humidity_2m} ${dataFetcherOutput.data.current_units.relative_humidity_2m}`} />
                      </Grid>
 
                      <Grid size={{ xs: 12, md: 3 }}>
@@ -117,7 +127,15 @@ function App() {
          {/* Gráfico */}
          <Grid
           sx={{ display: { xs: "none", md: "block"} }} >
-          <ChartUI />
+        <ChartUI
+          labels={dataFetcherOutput.data?.hourly?.time.slice(0, 25) ?? []}
+          values1={dataFetcherOutput.data?.hourly?.temperature_2m.slice(0, 25) ?? []}
+          values2={dataFetcherOutput.data?.hourly?.soil_moisture_0_1cm.slice(0, 25) ?? []}
+          units1={dataFetcherOutput.data?.hourly_units?.temperature_2m ?? ''}
+          units2={dataFetcherOutput.data?.hourly_units?.soil_moisture_0_1cm ?? ''}
+          loading={dataFetcherOutput.loading}
+          error={dataFetcherOutput.error}
+        />
          </Grid>
 
                   {/* 🔔 Recomendaciones para plantas */}
@@ -132,7 +150,15 @@ function App() {
 
          {/* Tabla */}
          <Grid sx={{ display: { xs: "none", md: "block" }, height: 400, width: '100%' }}>
-         <TableUI />
+        <TableUI
+          labels={dataFetcherOutput.data?.hourly?.time ?? []}
+          values1={dataFetcherOutput.data?.hourly?.temperature_2m ?? []}
+          values2={dataFetcherOutput.data?.hourly?.soil_moisture_0_1cm ?? []}
+          units1={dataFetcherOutput.data?.hourly_units?.temperature_2m ?? ''}
+          units2={dataFetcherOutput.data?.hourly_units?.soil_moisture_0_1cm ?? ''}
+          loading={dataFetcherOutput.loading}
+          error={dataFetcherOutput.error}
+        />
          </Grid>        
 
       </Grid>
