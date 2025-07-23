@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Grid } from '@mui/material';
+import { Grid, Box, Typography } from '@mui/material';
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
@@ -50,6 +50,8 @@ function App() {
                              title='Temperatura (2m)'
                              description={dataFetcherOutput.data.current.temperature_2m + " " + dataFetcherOutput.data.current_units.temperature_2m} />
                      </Grid>
+    
+
 
                      <Grid size={{ xs: 12, md: 3 }}>
                          <IndicatorUI
@@ -118,13 +120,20 @@ function App() {
           <ChartUI />
          </Grid>
 
+                  {/* 🔔 Recomendaciones para plantas */}
+         <Box sx={{ mt: 2 }}>
+            <Typography variant="h6">Recomendaciones para tus plantas 🌱</Typography>
+            <ul>
+            {generarRecomendaciones(dataFetcherOutput.data).map((rec, i) => (
+               <li key={i}>{rec}</li>
+            ))}
+            </ul>
+         </Box>
+
          {/* Tabla */}
          <Grid sx={{ display: { xs: "none", md: "block" }, height: 400, width: '100%' }}>
          <TableUI />
-         </Grid>
-
-         {/* Información adicional */}
-         <Grid></Grid>
+         </Grid>        
 
       </Grid>
    );
@@ -153,5 +162,42 @@ function getWeatherDescription(weatherCode: number): string {
         default: return "Estado del clima desconocido";
     }
 }
+
+function generarRecomendaciones(data: any | null): string[] {
+  const recomendaciones: string[] = [];
+
+  // Protege contra null o estructura faltante
+  if (!data || !data.hourly) {
+    return ["Datos meteorológicos no disponibles."];
+  }
+
+  const temp = data.hourly.temperature_2m?.[0];
+  const humedad = data.hourly.soil_moisture_0_1cm?.[0];
+  const lluvia = data.hourly.precipitation?.[0];
+  const uv = data.hourly.uv_index?.[0];
+
+  if (temp > 30) {
+    recomendaciones.push("☀️ Hace calor, riega tus plantas temprano o al atardecer.");
+  }
+
+  if (humedad < 0.1) {
+    recomendaciones.push("💧 Tu planta podría necesitar agua. Revisa el suelo.");
+  }
+
+  if (lluvia > 1) {
+    recomendaciones.push("🌧️ Hoy va a llover. No es necesario regar.");
+  }
+
+  if (uv > 6) {
+    recomendaciones.push("☂️ Alta radiación UV. Protege tus plantas del sol directo.");
+  }
+
+  if (recomendaciones.length === 0) {
+    recomendaciones.push("✅ Las condiciones climáticas son óptimas para tus plantas.");
+  }
+
+  return recomendaciones;
+}
+
 
 export default App
