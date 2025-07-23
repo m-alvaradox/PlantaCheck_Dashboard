@@ -1,0 +1,1 @@
+if('serviceWorker' in navigator) navigator.serviceWorker.register('/PlantaCheck_Dashboard/dev-sw.js?dev-sw', { scope: '/PlantaCheck_Dashboard/', type: 'classic' })
