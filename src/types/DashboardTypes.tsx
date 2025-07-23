@@ -14,6 +14,7 @@ export interface OpenMeteoResponse {
 
 export interface Hourly {
   time: string[];
+  temperature_2m: number[];
   soil_temperature_0cm: number[];
   soil_moisture_0_1cm: number[];
   precipitation: number[];
@@ -24,6 +25,7 @@ export interface Hourly {
 
 export interface Hourlyunits {
   time: string;
+  temperature_2m: string;
   soil_temperature_0cm: string;
   soil_moisture_0_1cm: string;
   precipitation: string;

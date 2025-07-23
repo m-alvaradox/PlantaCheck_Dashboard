@@ -16,7 +16,7 @@ export default function DataFetcher() : DataFetcherOutput {
     useEffect(() => {
 
         // Reemplace con su URL de la API de Open-Meteo obtenida en actividades previas
-        const url = `https://api.open-meteo.com/v1/forecast?latitude=-2.17&longitude=-79.92&current=temperature_2m,apparent_temperature,relative_humidity_2m,wind_speed_10m&hourly=soil_temperature_0cm,soil_moisture_0_1cm,precipitation,sunshine_duration,uv_index,weathercode&timezone=America%2FGuayaquil
+        const url = `https://api.open-meteo.com/v1/forecast?latitude=-2.17&longitude=-79.92&current=temperature_2m,apparent_temperature,relative_humidity_2m,wind_speed_10m&hourly=temperature_2m,soil_temperature_0cm,soil_moisture_0_1cm,precipitation,sunshine_duration,uv_index,weathercode&temperature_unit=celsius&wind_speed_unit=kmh&precipitation_unit=mm&timezone=America%2FChicago
 
 `
 

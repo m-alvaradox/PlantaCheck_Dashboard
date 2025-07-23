@@ -8,6 +8,8 @@ import AlertUI from './components/AlertUI';
 import SelectorUI from './components/SelectorUI';
 import IndicatorUI from './components/IndicatorUI';
 import DataFetcher from './functions/DataFetcher';
+import ChartUI from './components/ChartUI';
+import TableUI from './components/TableUI';
 
 function App() {
    const dataFetcherOutput = DataFetcher();
@@ -113,13 +115,13 @@ function App() {
          {/* Gráfico */}
          <Grid
           sx={{ display: { xs: "none", md: "block"} }} >
-          
+          <ChartUI />
          </Grid>
 
          {/* Tabla */}
-         <Grid
-         sx={{ display: { xs: "none", md: "block" } }}>
-          </Grid>
+         <Grid sx={{ display: { xs: "none", md: "block" }, height: 400, width: '100%' }}>
+         <TableUI />
+         </Grid>
 
          {/* Información adicional */}
          <Grid></Grid>
