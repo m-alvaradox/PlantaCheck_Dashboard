@@ -1,0 +1,1 @@
+if('serviceWorker' in navigator) {window.addEventListener('load', () => {navigator.serviceWorker.register('/PlantaCheck_Dashboard/sw.js', { scope: '/PlantaCheck_Dashboard/' })})}
