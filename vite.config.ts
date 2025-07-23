@@ -44,17 +44,25 @@ export default defineConfig({
               },
           ]
         },
-        workbox: {
-        runtimeCaching: [
-          {
+   workbox: {
+      runtimeCaching: [
+         {
+            // Intercepta todas las peticiones a esta API (ajusta según necesidad)
             urlPattern: /^https:\/\/api\.open-meteo\.com\/.*$/,
             handler: 'NetworkFirst',
             options: {
-              cacheName: 'openmeteo-api-cache',
-            },
-          },
-        ],
-      }
+               cacheName: 'open-meteo-cache',
+               expiration: {
+                  maxEntries: 10,
+                  maxAgeSeconds: 60 * 60 * 24, // 1 día
+               },
+               cacheableResponse: {
+                  statuses: [0, 200],
+               }
+            }
+         }
+      ]
+   }
 
 
 
