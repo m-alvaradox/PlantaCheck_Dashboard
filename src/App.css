@@ -40,3 +40,10 @@
 .read-the-docs {
   color: #888;
 }
+
+body {
+  background-image: url('../public/fondo_plantas.avif'); /* Si la imagen está en public */
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}

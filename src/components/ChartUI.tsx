@@ -25,8 +25,8 @@ export default function ChartUI({ labels, values1, values2, units1, units2, load
          <LineChart
             height={300}
             series={[
-               { data: values1, label: `Temp. aire (${units1})` },
-               { data: values2, label: `Humedad suelo (${units2})` },
+               { data: values1, label: `Temp. aire (${units1})`, color: '#1976d2' },
+               { data: values2, label: `Humedad suelo (${units2})`, color: '#4b2d2dff' },
             ]}
             xAxis={[{ scaleType: 'point', data: labels }]}
          />
