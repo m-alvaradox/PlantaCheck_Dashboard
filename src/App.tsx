@@ -8,6 +8,7 @@ import IndicatorUI from './components/IndicatorUI';
 import DataFetcher from './functions/DataFetcher';
 import ChartUI from './components/ChartUI';
 import TableUI from './components/TableUI';
+import CohereAssistant from './components/CohereAssistant';
 
 type CityName = 'guayaquil' | 'quito' | 'manta' | 'cuenca';
 
@@ -30,6 +31,14 @@ function App() {
          <Grid>
             <HeaderUI/>
          </Grid>
+
+         <CohereAssistant
+            weatherContext={
+              dataFetcherOutput.data
+                ? `Temperatura: ${dataFetcherOutput.data.current.temperature_2m}°C, Humedad: ${dataFetcherOutput.data.current.relative_humidity_2m}%`
+                : "Datos meteorológicos no disponibles."
+            }
+         />
          
 
          {/* Alertas */}
